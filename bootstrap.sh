@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # bootstrap.sh — installs brew tools, dotfiles, and Node.js environment
 
-# Exit on errors and undefined commands in pipelines, but allow unset variables
+# Exit on errors and fail on undefined commands in pipelines
 set -eo pipefail
 
 echo "🔧 Starting bootstrap…"
@@ -19,10 +19,22 @@ brew update
 echo "Installing git, tmux, lazygit, neovim…"
 brew install git tmux lazygit neovim
 
-# 3) Alias 'vim' to 'nvim' in ~/.zprofile
+# 3) Add aliases to ~/.zprofile
+# vim alias
 if ! grep -qx "alias vim='nvim'" "$HOME/.zprofile"; then
   echo "alias vim='nvim'" >> "$HOME/.zprofile"
   echo "Added alias vim='nvim' to ~/.zprofile"
+fi
+
+# lazygit aliases
+if ! grep -q "alias lazygit=" "$HOME/.zprofile"; then
+  echo 'alias lazygit="lazygit --use-config-file=\"$HOME/.config/lazygit/default.yml\""' >> "$HOME/.zprofile"
+  echo "Added alias lazygit to ~/.zprofile"
+fi
+
+if ! grep -q "alias lazygit-sbs=" "$HOME/.zprofile"; then
+  echo 'alias lazygit-sbs="lazygit --use-config-file=\"$HOME/.config/lazygit/side-by-side.yml\""' >> "$HOME/.zprofile"
+  echo "Added alias lazygit-sbs to ~/.zprofile"
 fi
 
 # 4) Install NVM (Node Version Manager)
@@ -43,9 +55,13 @@ nvm install 20
 nvm alias default 20
 nvm use 20
 
-echo "Node.js $(nvm version) installed, set as default, and in use."
+echo "Node.js $(nvm version) installed, set as default, and active."
 
-# 7) Clone or update dotfiles
+# 7) Install Claude Code and ccusage CLI tools
+echo "Installing Claude Code and ccusage…"
+npm install -g @anthropic-ai/claude-code ccusage
+
+# 8) Clone or update dotfiles
 DOTFILES_DIR="$HOME/dotfiles"
 if [ ! -d "$DOTFILES_DIR" ]; then
   echo "Cloning dotfiles to $DOTFILES_DIR…"
@@ -55,7 +71,39 @@ else
   git -C "$DOTFILES_DIR" pull
 fi
 
-# 8) If no SSH key, prompt to import and switch remote
+# 9) Update Claude commands
+if [ -f "$DOTFILES_DIR/update-claude-commands.sh" ]; then
+  echo "Updating Claude commands…"
+  "$DOTFILES_DIR/update-claude-commands.sh"
+else
+  echo "Claude commands script not found. Skipping."
+fi
+
+# 10) Update tmux configuration
+if [ -f "$DOTFILES_DIR/update-tmux.sh" ]; then
+  echo "Updating tmux configuration…"
+  "$DOTFILES_DIR/update-tmux.sh"
+else
+  echo "Tmux update script not found. Skipping."
+fi
+
+# 11) Update Neovim configuration
+if [ -f "$DOTFILES_DIR/update-nvim.sh" ]; then
+  echo "Updating Neovim configuration…"
+  "$DOTFILES_DIR/update-nvim.sh"
+else
+  echo "Neovim update script not found. Skipping."
+fi
+
+# 12) Update lazygit configuration
+if [ -f "$DOTFILES_DIR/update-lazygit.sh" ]; then
+  echo "Updating lazygit configuration…"
+  "$DOTFILES_DIR/update-lazygit.sh"
+else
+  echo "Lazygit update script not found. Skipping."
+fi
+
+# 13) If no SSH key, prompt to import and switch remote
 if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   read -rp "No SSH key found in ~/.ssh. Import keys now? [y/N] " resp
   if [[ $resp =~ ^[Yy]$ ]]; then
