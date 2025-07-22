@@ -122,5 +122,7 @@ if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   fi
 fi
 
+source ~/.zprofile
+
 echo "✅ Bootstrap complete."
 
