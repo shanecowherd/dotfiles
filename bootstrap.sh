@@ -12,11 +12,34 @@ else
 fi
 brew update
 
-# 2) Install packages
-echo "Installing git, tmux, lazygit…"
-brew install git tmux lazygit
+# 2) Install packages: git, tmux, lazygit, neovim
+echo "Installing git, tmux, lazygit, neovim…"
+brew install git tmux lazygit neovim
 
-# 3) Clone or update dotfiles
+# 3) Alias 'vim' to 'nvim' in ~/.zprofile
+if ! grep -qx "alias vim='nvim'" "$HOME/.zprofile"; then
+  echo "alias vim='nvim'" >> "$HOME/.zprofile"
+  echo "Added alias vim='nvim' to ~/.zprofile"
+fi
+
+# 4) Install NVM (Node Version Manager)
+if ! command -v nvm &>/dev/null; then
+  echo "Installing NVM…"
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \ . "$NVM_DIR/nvm.sh"
+fi
+
+# 5) Install Node.js 20 and set as default
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \ . "$NVM_DIR/nvm.sh"
+echo "Installing Node.js v20…"
+nvm install 20
+nnvm alias default 20
+
+echo "Node.js $(nvm version) installed and set as default."
+
+# 6) Clone or update dotfiles
 DOTFILES_DIR="$HOME/dotfiles"
 if [ ! -d "$DOTFILES_DIR" ]; then
   echo "Cloning dotfiles to $DOTFILES_DIR…"
@@ -26,7 +49,7 @@ else
   git -C "$DOTFILES_DIR" pull
 fi
 
-# 4) If no SSH key, prompt to import and switch remote
+# 7) If no SSH key, prompt to import and switch remote
 if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   read -rp "No SSH key found in ~/.ssh. Import keys now? [y/N] " resp
   if [[ $resp =~ ^[Yy]$ ]]; then
