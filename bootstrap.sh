@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# bootstrap.sh — installs brew tools, dotfiles, and Node.js environment
+
+# Exit on errors and undefined commands in pipelines, but allow unset variables
+set -eo pipefail
 
 echo "🔧 Starting bootstrap…"
 
@@ -26,20 +29,23 @@ fi
 if ! command -v nvm &>/dev/null; then
   echo "Installing NVM…"
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \ . "$NVM_DIR/nvm.sh"
 fi
 
-# 5) Install Node.js 20 and set as default
+# 5) Load NVM for this session
+echo "Loading NVM…"
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \ . "$NVM_DIR/nvm.sh"
+# shellcheck disable=SC1090
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# 6) Install Node.js 20, set as default, and use it
 echo "Installing Node.js v20…"
 nvm install 20
-nnvm alias default 20
+nvm alias default 20
+nvm use 20
 
-echo "Node.js $(nvm version) installed and set as default."
+echo "Node.js $(nvm version) installed, set as default, and in use."
 
-# 6) Clone or update dotfiles
+# 7) Clone or update dotfiles
 DOTFILES_DIR="$HOME/dotfiles"
 if [ ! -d "$DOTFILES_DIR" ]; then
   echo "Cloning dotfiles to $DOTFILES_DIR…"
@@ -49,7 +55,7 @@ else
   git -C "$DOTFILES_DIR" pull
 fi
 
-# 7) If no SSH key, prompt to import and switch remote
+# 8) If no SSH key, prompt to import and switch remote
 if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   read -rp "No SSH key found in ~/.ssh. Import keys now? [y/N] " resp
   if [[ $resp =~ ^[Yy]$ ]]; then
@@ -68,4 +74,5 @@ if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   fi
 fi
 
-echo "✅ Bootstrap complete. Next: cd $DOTFILES_DIR && ./install.sh"
+echo "✅ Bootstrap complete."
+
