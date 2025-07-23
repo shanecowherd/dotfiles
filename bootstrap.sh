@@ -158,5 +158,6 @@ fi
 
 source ~/.zprofile
 
+echo "Note: When you run TMUX, hit CTRL+B I to install the theme."
 echo "✅ Bootstrap complete."
 
