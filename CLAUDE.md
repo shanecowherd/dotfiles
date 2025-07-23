@@ -20,12 +20,19 @@ The main installation script that:
 5. Installs Node.js v20 and sets it as default
 6. Installs Claude Code and ccusage CLI tools
 7. Clones this dotfiles repository to ~/dotfiles
-8. Runs update-claude-commands.sh to install custom Claude commands from claude-config/commands
-9. Runs update-tmux.sh to install tmux configuration
-10. Runs update-nvim.sh to install Neovim configuration and plugins
-11. Runs update-lazygit.sh to install lazygit configurations
-12. Runs update-ghostty.sh to install Ghostty terminal configuration
-13. Handles SSH key import and switches remote to SSH if keys are imported
+8. Runs update-claude.sh to install personal Claude preferences
+9. Runs update-claude-commands.sh to install custom Claude commands from claude-config/commands
+10. Runs update-tmux.sh to install tmux configuration
+11. Runs update-nvim.sh to install Neovim configuration and plugins
+12. Runs update-lazygit.sh to install lazygit configurations
+13. Runs update-ghostty.sh to install Ghostty terminal configuration
+14. Handles SSH key import and switches remote to SSH if keys are imported
+
+### update-claude.sh
+A helper script that copies personal Claude preferences from the dotfiles repository to ~/.claude/CLAUDE.md. This script:
+- Creates ~/.claude directory if needed
+- Copies CLAUDE.md from claude-config/ to ~/.claude/CLAUDE.md
+- These preferences apply to all Claude Code sessions
 
 ### update-claude-commands.sh
 A helper script that copies custom Claude commands from the dotfiles repository to ~/.claude/commands. This script:
@@ -60,12 +67,14 @@ A helper script that copies Ghostty terminal configuration from the dotfiles rep
 - Configures Hack Nerd Font for proper tmux rounded corners display
 - Provides instructions for reloading configuration
 
-### claude-config/commands/
-Contains custom Claude Code commands (slash commands):
-- `change-terminal-to-blue.md` - Creates blue-themed VSCode workspace settings
-- `change-terminal-to-green.md` - Creates green-themed VSCode workspace settings
-- `change-terminal-to-red.md` - Creates red-themed VSCode workspace settings
-- `rules.md` - Enforces a structured workflow with todo.md planning
+### claude-config/
+Contains Claude Code configuration:
+- `CLAUDE.md` - Personal preferences and environment prompts that apply to all projects
+- `commands/` - Custom Claude Code slash commands:
+  - `change-terminal-to-blue.md` - Creates blue-themed VSCode workspace settings
+  - `change-terminal-to-green.md` - Creates green-themed VSCode workspace settings
+  - `change-terminal-to-red.md` - Creates red-themed VSCode workspace settings
+  - `rules.md` - Enforces a structured workflow with todo.md planning
 
 ### tmux-config/
 Contains tmux configuration:
@@ -96,6 +105,11 @@ curl -fsSL https://raw.githubusercontent.com/shanecowherd/dotfiles/main/bootstra
 cd ~/dotfiles && git pull
 ```
 
+### Update Claude User Preferences Only
+```bash
+~/dotfiles/update-claude.sh
+```
+
 ### Update Claude Commands Only
 ```bash
 ~/dotfiles/update-claude-commands.sh
@@ -124,6 +138,7 @@ cd ~/dotfiles && git pull
 ### Directory Structure
 ```
 claude-config/
+├── CLAUDE.md     # Personal preferences for all projects
 └── commands/     # Custom Claude Code slash commands
     ├── change-terminal-to-blue.md
     ├── change-terminal-to-green.md

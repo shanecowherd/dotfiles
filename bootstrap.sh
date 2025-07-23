@@ -79,7 +79,15 @@ else
   git -C "$DOTFILES_DIR" pull
 fi
 
-# 9) Update Claude commands
+# 9) Update Claude user preferences
+if [ -f "$DOTFILES_DIR/update-claude.sh" ]; then
+  echo "Updating Claude user preferences…"
+  "$DOTFILES_DIR/update-claude.sh"
+else
+  echo "Claude preferences script not found. Skipping."
+fi
+
+# 10) Update Claude commands
 if [ -f "$DOTFILES_DIR/update-claude-commands.sh" ]; then
   echo "Updating Claude commands…"
   "$DOTFILES_DIR/update-claude-commands.sh"
@@ -87,7 +95,7 @@ else
   echo "Claude commands script not found. Skipping."
 fi
 
-# 10) Update tmux configuration
+# 11) Update tmux configuration
 if [ -f "$DOTFILES_DIR/update-tmux.sh" ]; then
   echo "Updating tmux configuration…"
   "$DOTFILES_DIR/update-tmux.sh"
@@ -95,7 +103,7 @@ else
   echo "Tmux update script not found. Skipping."
 fi
 
-# 11) Update Neovim configuration
+# 12) Update Neovim configuration
 if [ -f "$DOTFILES_DIR/update-nvim.sh" ]; then
   echo "Updating Neovim configuration…"
   "$DOTFILES_DIR/update-nvim.sh"
@@ -103,7 +111,7 @@ else
   echo "Neovim update script not found. Skipping."
 fi
 
-# 12) Update lazygit configuration
+# 13) Update lazygit configuration
 if [ -f "$DOTFILES_DIR/update-lazygit.sh" ]; then
   echo "Updating lazygit configuration…"
   "$DOTFILES_DIR/update-lazygit.sh"
@@ -111,7 +119,7 @@ else
   echo "Lazygit update script not found. Skipping."
 fi
 
-# 13) Update Ghostty configuration
+# 14) Update Ghostty configuration
 if [ -f "$DOTFILES_DIR/update-ghostty.sh" ]; then
   echo "Updating Ghostty configuration…"
   "$DOTFILES_DIR/update-ghostty.sh"
@@ -119,7 +127,7 @@ else
   echo "Ghostty update script not found. Skipping."
 fi
 
-# 14) If no SSH key, prompt to import and switch remote
+# 15) If no SSH key, prompt to import and switch remote
 if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   read -rp "No SSH key found in ~/.ssh. Import keys now? [y/N] " resp
   if [[ $resp =~ ^[Yy]$ ]]; then
