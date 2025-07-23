@@ -34,6 +34,18 @@ require("packer").startup(function(use)
     run = ":TSUpdate"
   }
 
+  -- Telescope
+  use {
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.5",
+    requires = { "nvim-lua/plenary.nvim" }
+  }
+
+  use {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    run = "make"
+  }
+
   -- Color scheme
   use {
     "catppuccin/nvim",
@@ -142,3 +154,101 @@ pcall(function()
     }
   }
 end)
+
+-- Telescope configuration
+pcall(function()
+  local telescope = require('telescope')
+  local actions = require('telescope.actions')
+  
+  telescope.setup {
+    defaults = {
+      prompt_prefix = "🔍 ",
+      selection_caret = "▶ ",
+      path_display = {"truncate"},
+      file_ignore_patterns = {
+        "node_modules",
+        ".git/",
+        "dist/",
+        "build/"
+      },
+      layout_config = {
+        horizontal = {
+          preview_width = 0.55,
+          results_width = 0.8,
+        },
+        vertical = {
+          mirror = false,
+        },
+        width = 0.87,
+        height = 0.80,
+        preview_cutoff = 120,
+      },
+      mappings = {
+        i = {
+          ["<C-n>"] = actions.cycle_history_next,
+          ["<C-p>"] = actions.cycle_history_prev,
+          ["<C-j>"] = actions.move_selection_next,
+          ["<C-k>"] = actions.move_selection_previous,
+          ["<C-c>"] = actions.close,
+          ["<Down>"] = actions.move_selection_next,
+          ["<Up>"] = actions.move_selection_previous,
+          ["<CR>"] = actions.select_default,
+          ["<C-x>"] = actions.select_horizontal,
+          ["<C-v>"] = actions.select_vertical,
+          ["<C-t>"] = actions.select_tab,
+        },
+        n = {
+          ["<esc>"] = actions.close,
+          ["<CR>"] = actions.select_default,
+          ["<C-x>"] = actions.select_horizontal,
+          ["<C-v>"] = actions.select_vertical,
+          ["<C-t>"] = actions.select_tab,
+          ["j"] = actions.move_selection_next,
+          ["k"] = actions.move_selection_previous,
+          ["H"] = actions.move_to_top,
+          ["M"] = actions.move_to_middle,
+          ["L"] = actions.move_to_bottom,
+          ["q"] = actions.close,
+        }
+      }
+    },
+    pickers = {
+      find_files = {
+        theme = "dropdown",
+        previewer = false,
+        hidden = true,
+      },
+      live_grep = {
+        theme = "ivy",
+      },
+      buffers = {
+        theme = "dropdown",
+        previewer = false,
+        initial_mode = "normal",
+      }
+    },
+    extensions = {
+      fzf = {
+        fuzzy = true,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+        case_mode = "smart_case",
+      }
+    }
+  }
+  
+  -- Load fzf extension
+  telescope.load_extension('fzf')
+end)
+
+-- Telescope keybindings
+vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { desc = 'Find files' })
+vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { desc = 'Live grep' })
+vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<cr>', { desc = 'Find buffers' })
+vim.keymap.set('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', { desc = 'Help tags' })
+vim.keymap.set('n', '<leader>fo', '<cmd>Telescope oldfiles<cr>', { desc = 'Recent files' })
+vim.keymap.set('n', '<leader>fs', '<cmd>Telescope git_status<cr>', { desc = 'Git status' })
+vim.keymap.set('n', '<leader>fc', '<cmd>Telescope git_commits<cr>', { desc = 'Git commits' })
+vim.keymap.set('n', '<leader>fd', '<cmd>Telescope diagnostics<cr>', { desc = 'Diagnostics' })
+vim.keymap.set('n', '<leader>fr', '<cmd>Telescope registers<cr>', { desc = 'Registers' })
+vim.keymap.set('n', '<leader>fk', '<cmd>Telescope keymaps<cr>', { desc = 'Keymaps' })

@@ -32,6 +32,8 @@ fi
 
 echo "✅ Successfully updated tmux configuration"
 echo ""
-echo "💡 Tip: If tmux is running, reload the configuration with:"
-echo "   tmux source-file ~/.tmux.conf"
-echo "   or press prefix + r inside tmux"
+echo "💡 Tips:"
+echo "   - If tmux is running, reload the configuration with:"
+echo "     tmux source-file ~/.tmux.conf"
+echo "     or press prefix + r inside tmux"
+echo "   - Install/update TPM plugins by pressing prefix + I inside tmux"
