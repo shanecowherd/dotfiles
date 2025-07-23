@@ -24,7 +24,8 @@ The main installation script that:
 9. Runs update-tmux.sh to install tmux configuration
 10. Runs update-nvim.sh to install Neovim configuration and plugins
 11. Runs update-lazygit.sh to install lazygit configurations
-12. Handles SSH key import and switches remote to SSH if keys are imported
+12. Runs update-ghostty.sh to install Ghostty terminal configuration
+13. Handles SSH key import and switches remote to SSH if keys are imported
 
 ### update-claude-commands.sh
 A helper script that copies custom Claude commands from the dotfiles repository to ~/.claude/commands. This script:
@@ -52,6 +53,13 @@ A helper script that copies lazygit configurations from the dotfiles repository 
 - Installs delta (git-delta) if not present for enhanced diffs
 - Provides usage instructions for both aliases
 
+### update-ghostty.sh
+A helper script that copies Ghostty terminal configuration from the dotfiles repository to ~/.config/ghostty/. This script:
+- Creates ~/.config/ghostty/ directory if needed
+- Copies config from ghostty-config/ to ~/.config/ghostty/config
+- Configures Hack Nerd Font for proper tmux rounded corners display
+- Provides instructions for reloading configuration
+
 ### claude-config/commands/
 Contains custom Claude Code commands (slash commands):
 - `change-terminal-to-blue.md` - Creates blue-themed VSCode workspace settings
@@ -71,6 +79,10 @@ Contains Neovim configuration:
 Contains lazygit configurations:
 - `default.yml` - Standard unified diff view using delta
 - `side-by-side.yml` - Side-by-side diff view using delta
+
+### ghostty-config/
+Contains Ghostty terminal configuration:
+- `config` - Ghostty configuration with Hack Nerd Font for tmux rounded corners
 
 ## Commands
 
@@ -104,6 +116,11 @@ cd ~/dotfiles && git pull
 ~/dotfiles/update-lazygit.sh
 ```
 
+### Update Ghostty Configuration Only
+```bash
+~/dotfiles/update-ghostty.sh
+```
+
 ### Directory Structure
 ```
 claude-config/
@@ -122,6 +139,9 @@ nvim-config/
 lazygit-config/
 ├── default.yml      # Standard unified diff view
 └── side-by-side.yml # Side-by-side diff view
+
+ghostty-config/
+└── config          # Ghostty terminal configuration with Nerd Font
 ```
 
 ## Architecture

@@ -15,9 +15,17 @@ else
 fi
 brew update
 
-# 2) Install packages: git, tmux, lazygit, neovim
-echo "Installing git, tmux, lazygit, neovim…"
-brew install git tmux lazygit neovim
+# 2) Install packages: git, tmux, lazygit, neovim, ripgrep, fontconfig
+echo "Installing git, tmux, lazygit, neovim, ripgrep, fontconfig…"
+brew install git tmux lazygit neovim ripgrep fontconfig
+
+# 2.5) Install Nerd Font for better terminal experience (especially for tmux-powerline)
+echo "Installing Hack Nerd Font for terminal icons..."
+brew install --cask font-hack-nerd-font
+
+# 2.6) Install Ghostty terminal emulator
+echo "Installing Ghostty terminal emulator..."
+brew install --cask ghostty
 
 # 3) Add aliases to ~/.zprofile
 # vim alias
@@ -103,7 +111,15 @@ else
   echo "Lazygit update script not found. Skipping."
 fi
 
-# 13) If no SSH key, prompt to import and switch remote
+# 13) Update Ghostty configuration
+if [ -f "$DOTFILES_DIR/update-ghostty.sh" ]; then
+  echo "Updating Ghostty configuration…"
+  "$DOTFILES_DIR/update-ghostty.sh"
+else
+  echo "Ghostty update script not found. Skipping."
+fi
+
+# 14) If no SSH key, prompt to import and switch remote
 if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   read -rp "No SSH key found in ~/.ssh. Import keys now? [y/N] " resp
   if [[ $resp =~ ^[Yy]$ ]]; then
