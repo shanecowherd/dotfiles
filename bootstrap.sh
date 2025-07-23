@@ -146,6 +146,16 @@ if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   fi
 fi
 
+# 16) Update SSH configuration for Ghostty compatibility (only if SSH is configured)
+if [ -d "$HOME/.ssh" ]; then
+  if [ -f "$DOTFILES_DIR/update-ssh.sh" ]; then
+    echo "Updating SSH configuration for Ghostty compatibility…"
+    "$DOTFILES_DIR/update-ssh.sh"
+  else
+    echo "SSH update script not found. Skipping."
+  fi
+fi
+
 source ~/.zprofile
 
 echo "✅ Bootstrap complete."

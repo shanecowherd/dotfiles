@@ -1,0 +1,14 @@
+# SSH Config for Ghostty Terminal Compatibility
+# This config ensures SSH sessions work properly when using Ghostty terminal
+
+# Set TERM to xterm-256color for all SSH connections
+# This prevents "missing or unsuitable terminal: xterm-ghostty" errors
+Host *
+    SetEnv TERM=xterm-256color
+
+# You can add host-specific configurations below
+# Example:
+# Host myserver
+#     HostName example.com
+#     User myusername
+#     Port 22

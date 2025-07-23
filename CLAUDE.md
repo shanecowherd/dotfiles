@@ -27,6 +27,7 @@ The main installation script that:
 12. Runs update-lazygit.sh to install lazygit configurations
 13. Runs update-ghostty.sh to install Ghostty terminal configuration
 14. Handles SSH key import and switches remote to SSH if keys are imported
+15. Runs update-ssh.sh to configure SSH for Ghostty terminal compatibility (if SSH is set up)
 
 ### update-claude.sh
 A helper script that copies personal Claude preferences from the dotfiles repository to ~/.claude/CLAUDE.md. This script:
@@ -67,6 +68,19 @@ A helper script that copies Ghostty terminal configuration from the dotfiles rep
 - Configures Hack Nerd Font for proper tmux rounded corners display
 - Provides instructions for reloading configuration
 
+### update-ssh.sh
+A helper script that configures SSH for Ghostty terminal compatibility. This script:
+- Checks if ~/.ssh directory exists (requires SSH keys to be set up first)
+- Creates or updates ~/.ssh/config to set TERM=xterm-256color for all SSH connections
+- Prevents "missing or unsuitable terminal: xterm-ghostty" errors on remote servers
+- Only runs after SSH keys are configured
+
+### export-ghostty-terminfo.sh
+An optional helper script for advanced users that exports Ghostty terminfo to remote servers:
+- Exports full xterm-ghostty terminfo for the best terminal experience
+- Not required for basic functionality (SSH config provides compatibility)
+- Usage: `~/dotfiles/export-ghostty-terminfo.sh user@host`
+
 ### claude-config/
 Contains Claude Code configuration:
 - `CLAUDE.md` - Personal preferences and environment prompts that apply to all projects
@@ -92,6 +106,10 @@ Contains lazygit configurations:
 ### ghostty-config/
 Contains Ghostty terminal configuration:
 - `config` - Ghostty configuration with Hack Nerd Font for tmux rounded corners
+
+### ssh-config/
+Contains SSH configuration templates:
+- `config` - SSH config that sets TERM=xterm-256color for Ghostty compatibility
 
 ## Commands
 
@@ -135,6 +153,16 @@ cd ~/dotfiles && git pull
 ~/dotfiles/update-ghostty.sh
 ```
 
+### Update SSH Configuration (after SSH keys are set up)
+```bash
+~/dotfiles/update-ssh.sh
+```
+
+### Export Ghostty Terminfo to Remote Servers (optional)
+```bash
+~/dotfiles/export-ghostty-terminfo.sh user@host
+```
+
 ### Directory Structure
 ```
 claude-config/
@@ -157,6 +185,9 @@ lazygit-config/
 
 ghostty-config/
 └── config          # Ghostty terminal configuration with Nerd Font
+
+ssh-config/
+└── config          # SSH configuration for Ghostty terminal compatibility
 ```
 
 ## Architecture
