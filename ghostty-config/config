@@ -31,3 +31,8 @@ mouse-hide-while-typing = true
 
 # Ensure proper Unicode handling
 # gtk-single-instance = true
+
+# Keybinding fixes for tmux/SSH compatibility
+# Fix Shift+Enter to work properly in tmux and over SSH
+# This makes Ghostty send the same escape sequence as iTerm2 for Shift+Enter
+keybind = shift+enter=text:\x1b[13;2u

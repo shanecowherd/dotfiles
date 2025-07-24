@@ -95,7 +95,15 @@ else
   echo "Claude commands script not found. Skipping."
 fi
 
-# 11) Update tmux configuration
+# 11) Update Claude agents
+if [ -f "$DOTFILES_DIR/update-claude-agents.sh" ]; then
+  echo "Updating Claude agents…"
+  "$DOTFILES_DIR/update-claude-agents.sh"
+else
+  echo "Claude agents script not found. Skipping."
+fi
+
+# 12) Update tmux configuration
 if [ -f "$DOTFILES_DIR/update-tmux.sh" ]; then
   echo "Updating tmux configuration…"
   "$DOTFILES_DIR/update-tmux.sh"
@@ -103,7 +111,7 @@ else
   echo "Tmux update script not found. Skipping."
 fi
 
-# 12) Update Neovim configuration
+# 13) Update Neovim configuration
 if [ -f "$DOTFILES_DIR/update-nvim.sh" ]; then
   echo "Updating Neovim configuration…"
   "$DOTFILES_DIR/update-nvim.sh"
@@ -111,7 +119,7 @@ else
   echo "Neovim update script not found. Skipping."
 fi
 
-# 13) Update lazygit configuration
+# 14) Update lazygit configuration
 if [ -f "$DOTFILES_DIR/update-lazygit.sh" ]; then
   echo "Updating lazygit configuration…"
   "$DOTFILES_DIR/update-lazygit.sh"
@@ -119,7 +127,7 @@ else
   echo "Lazygit update script not found. Skipping."
 fi
 
-# 14) Update Ghostty configuration
+# 15) Update Ghostty configuration
 if [ -f "$DOTFILES_DIR/update-ghostty.sh" ]; then
   echo "Updating Ghostty configuration…"
   "$DOTFILES_DIR/update-ghostty.sh"
@@ -127,7 +135,7 @@ else
   echo "Ghostty update script not found. Skipping."
 fi
 
-# 15) If no SSH key, prompt to import and switch remote
+# 16) If no SSH key, prompt to import and switch remote
 if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   read -rp "No SSH key found in ~/.ssh. Import keys now? [y/N] " resp
   if [[ $resp =~ ^[Yy]$ ]]; then
@@ -146,7 +154,7 @@ if [ ! -f "$HOME/.ssh/id_rsa" ]; then
   fi
 fi
 
-# 16) Update SSH configuration for Ghostty compatibility (only if SSH is configured)
+# 17) Update SSH configuration for Ghostty compatibility (only if SSH is configured)
 if [ -d "$HOME/.ssh" ]; then
   if [ -f "$DOTFILES_DIR/update-ssh.sh" ]; then
     echo "Updating SSH configuration for Ghostty compatibility…"

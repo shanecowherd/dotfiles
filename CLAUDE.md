@@ -22,12 +22,13 @@ The main installation script that:
 7. Clones this dotfiles repository to ~/dotfiles
 8. Runs update-claude.sh to install personal Claude preferences
 9. Runs update-claude-commands.sh to install custom Claude commands from claude-config/commands
-10. Runs update-tmux.sh to install tmux configuration
-11. Runs update-nvim.sh to install Neovim configuration and plugins
-12. Runs update-lazygit.sh to install lazygit configurations
-13. Runs update-ghostty.sh to install Ghostty terminal configuration
-14. Handles SSH key import and switches remote to SSH if keys are imported
-15. Runs update-ssh.sh to configure SSH for Ghostty terminal compatibility (if SSH is set up)
+10. Runs update-claude-agents.sh to install Claude agents from claude-config/agents
+11. Runs update-tmux.sh to install tmux configuration
+12. Runs update-nvim.sh to install Neovim configuration and plugins
+13. Runs update-lazygit.sh to install lazygit configurations
+14. Runs update-ghostty.sh to install Ghostty terminal configuration
+15. Handles SSH key import and switches remote to SSH if keys are imported
+16. Runs update-ssh.sh to configure SSH for Ghostty terminal compatibility (if SSH is set up)
 
 ### update-claude.sh
 A helper script that copies personal Claude preferences from the dotfiles repository to ~/.claude/CLAUDE.md. This script:
@@ -40,6 +41,13 @@ A helper script that copies custom Claude commands from the dotfiles repository 
 - Creates ~/.claude/commands directory if needed
 - Copies all .md files from the claude-config/commands/ directory
 - Shows which commands were successfully copied
+
+### update-claude-agents.sh
+A helper script that copies Claude agents from the dotfiles repository to ~/.claude/agents. This script:
+- Creates ~/.claude/agents directory if needed
+- Copies all .md files from the claude-config/agents/ directory
+- Shows which agents were successfully copied
+- Agents define specialized AI personas with specific expertise
 
 ### update-tmux.sh
 A helper script that copies tmux configuration from the dotfiles repository to ~/.tmux.conf. This script:
@@ -89,6 +97,12 @@ Contains Claude Code configuration:
   - `change-terminal-to-green.md` - Creates green-themed VSCode workspace settings
   - `change-terminal-to-red.md` - Creates red-themed VSCode workspace settings
   - `rules.md` - Enforces a structured workflow with todo.md planning
+- `agents/` - Specialized Claude agents with domain expertise:
+  - `ios-architect-tdd.md` - iOS architecture and test-driven development expert
+  - `embedded-safety-engineer.md` - Embedded systems and safety-critical software specialist
+  - `react-native-performance-expert.md` - React Native performance optimization specialist
+  - `senior-code-reviewer.md` - Code review and best practices expert
+  - `engineering-tech-lead.md` - Technical leadership and architecture coordination
 
 ### tmux-config/
 Contains tmux configuration:
@@ -133,6 +147,11 @@ cd ~/dotfiles && git pull
 ~/dotfiles/update-claude-commands.sh
 ```
 
+### Update Claude Agents Only
+```bash
+~/dotfiles/update-claude-agents.sh
+```
+
 ### Update Tmux Configuration Only
 ```bash
 ~/dotfiles/update-tmux.sh
@@ -167,11 +186,17 @@ cd ~/dotfiles && git pull
 ```
 claude-config/
 ├── CLAUDE.md     # Personal preferences for all projects
-└── commands/     # Custom Claude Code slash commands
-    ├── change-terminal-to-blue.md
-    ├── change-terminal-to-green.md
-    ├── change-terminal-to-red.md
-    └── rules.md
+├── commands/     # Custom Claude Code slash commands
+│   ├── change-terminal-to-blue.md
+│   ├── change-terminal-to-green.md
+│   ├── change-terminal-to-red.md
+│   └── rules.md
+└── agents/       # Specialized Claude agents
+    ├── ios-architect-tdd.md
+    ├── embedded-safety-engineer.md
+    ├── react-native-performance-expert.md
+    ├── senior-code-reviewer.md
+    └── engineering-tech-lead.md
 
 tmux-config/
 └── tmux.conf     # Tmux configuration file
