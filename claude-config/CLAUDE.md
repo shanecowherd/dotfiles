@@ -46,3 +46,24 @@ This file contains personal preferences and environment-specific prompts that ap
 - Use the Task tool for complex searches
 - Batch multiple tool calls when possible
 - Read files before editing them
+
+## Agent Usage
+
+- **Prioritize specialized agents** - Always use the appropriate specialized agent for domain-specific tasks to keep the main context focused and leverage expert knowledge
+- **Use agents proactively** - Don't wait for explicit requests; invoke agents whenever their expertise is relevant
+- **Delegate complex tasks** - For multi-step or complex domain-specific work, delegate to the appropriate agent rather than handling everything in the main context
+
+### Available Agents and When to Use Them:
+
+- **ios-architect-tdd** - For iOS/Swift development, architecture decisions, and mobile app best practices
+- **embedded-safety-engineer** - For embedded systems, firmware, microcontroller code, and hardware programming
+- **react-native-performance-expert** - For React Native development, performance optimization, and cross-platform mobile
+- **senior-code-reviewer** - After writing any significant code, for security and quality review
+- **engineering-tech-lead** - For complex multi-component features or architectural coordination
+
+### Benefits of Agent Usage:
+
+- Keeps main conversation context cleaner and more focused
+- Provides domain-specific expertise without cluttering the main assistant's context
+- Enables better parallel processing of complex tasks
+- Ensures consistent application of best practices in specialized domains
