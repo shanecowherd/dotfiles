@@ -49,21 +49,49 @@ This file contains personal preferences and environment-specific prompts that ap
 
 ## Agent Usage
 
-- **Prioritize specialized agents** - Always use the appropriate specialized agent for domain-specific tasks to keep the main context focused and leverage expert knowledge
-- **Use agents proactively** - Don't wait for explicit requests; invoke agents whenever their expertise is relevant
-- **Delegate complex tasks** - For multi-step or complex domain-specific work, delegate to the appropriate agent rather than handling everything in the main context
+### Available Agents
 
-### Available Agents and When to Use Them:
+I have access to specialized agents that can help with specific types of tasks:
 
-- **ios-architect-tdd** - For iOS/Swift development, architecture decisions, and mobile app best practices
-- **embedded-safety-engineer** - For embedded systems, firmware, microcontroller code, and hardware programming
-- **react-native-performance-expert** - For React Native development, performance optimization, and cross-platform mobile
-- **senior-code-reviewer** - After writing any significant code, for security and quality review
-- **engineering-tech-lead** - For complex multi-component features or architectural coordination
+1. **engineering-tech-lead** - Helpful for complex engineering coordination:
+   - Multi-component features (frontend + backend + database)
+   - Large refactoring efforts
+   - Architecture design and planning
+   - Coordinating work across different technical domains
 
-### Benefits of Agent Usage:
+2. **general-purpose** - Useful for research and analysis:
+   - Code exploration and pattern finding
+   - Information gathering
+   - General problem solving
+   - Non-engineering research tasks
 
-- Keeps main conversation context cleaner and more focused
-- Provides domain-specific expertise without cluttering the main assistant's context
-- Enables better parallel processing of complex tasks
-- Ensures consistent application of best practices in specialized domains
+3. **Specialized domain agents** when specific expertise would help:
+   - **ios-architect-tdd** - iOS/Swift development and architecture
+   - **react-native-performance-expert** - React Native optimization
+   - **embedded-safety-engineer** - Firmware and embedded systems
+   - **cloudflare-edge-engineer** - Cloudflare Workers and edge computing
+   - **senior-code-reviewer** - Code quality and security reviews
+
+### When Agents Can Help
+
+Consider using agents when:
+- The task involves multiple components or systems
+- Specialized domain knowledge would be beneficial
+- You need comprehensive code analysis or review
+- The task requires significant planning or coordination
+
+### Example Scenarios
+
+```
+User: "Help me build a React Native app with authentication"
+→ The engineering-tech-lead agent could help coordinate this multi-component feature
+
+User: "Review my iOS networking code for best practices"
+→ The ios-architect-tdd agent could provide iOS-specific guidance
+
+User: "Find all error handling patterns in the codebase"
+→ The general-purpose agent could help with this research task
+
+User: "Optimize my React Native list performance"
+→ The react-native-performance-expert could provide targeted optimization advice
+```

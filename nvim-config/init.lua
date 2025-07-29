@@ -19,6 +19,8 @@ ensure_packer()
 require("packer").startup(function(use)
   use "wbthomason/packer.nvim"
 
+  -- Using default colorscheme for better terminal compatibility
+
   use {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -50,16 +52,23 @@ end)
 
 -- Set encoding and terminal settings
 vim.opt.encoding = "utf-8"
-vim.opt.termguicolors = true
+
+-- Detect terminal type
+local term_program = vim.fn.getenv("TERM_PROGRAM")
+local is_apple_terminal = term_program == "Apple_Terminal"
+
+-- Use 256 colors for better terminal compatibility
+vim.opt.termguicolors = false
+
 vim.opt.background = "dark"
 
--- Use default colorscheme
-pcall(function()
-  vim.cmd.colorscheme "default"
-end)
+-- Use default colorscheme for maximum compatibility
+vim.cmd("colorscheme default")
 
 -- Safely try to load neo-tree
 pcall(function()
+  -- Use default colors for Neo-tree
+  
   require("neo-tree").setup({
     default_component_configs = {
       icon = {
