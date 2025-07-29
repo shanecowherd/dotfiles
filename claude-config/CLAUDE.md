@@ -2,10 +2,39 @@
 
 This file contains personal preferences and environment-specific prompts that apply across all projects.
 
+## Dotfiles Philosophy
+
+- **Run on defaults**: All configurations should work with stock macOS tools (Apple Terminal, no special fonts)
+- **Keep target machines clean**: Minimize system modifications and dependencies
+- **Future-proof**: Avoid dependencies on specific versions or tools that may become obsolete
+- **Minimal dependencies**: Only install what's absolutely necessary for development productivity
+- **Portability**: Configurations should be easy to set up on a fresh macOS install
+
+## Dotfiles Development Best Practices
+
+When modifying dotfiles configurations:
+
+1. **Always edit files in the dotfiles repository**, not in the user's home directory
+   - Edit `~/dotfiles/tmux-config/tmux.conf`, not `~/.tmux.conf`
+   - Edit `~/dotfiles/nvim-config/init.lua`, not `~/.config/nvim/init.lua`
+   - Edit `~/dotfiles/claude-config/CLAUDE.md`, not `~/.claude/CLAUDE.md`
+
+2. **Use the appropriate update script** to deploy changes:
+   - `~/dotfiles/update-tmux.sh` for tmux configuration
+   - `~/dotfiles/update-nvim.sh` for Neovim configuration
+   - `~/dotfiles/update-lazygit.sh` for lazygit configuration
+   - `~/dotfiles/update-claude.sh` for Claude preferences
+   - `~/dotfiles/update-claude-commands.sh` for Claude commands
+   - `~/dotfiles/update-claude-agents.sh` for Claude agents
+
+3. **Test changes locally** before committing to ensure they work as expected
+
+4. **Avoid configuration drift** - the dotfiles repository should always be the source of truth
+
 ## Development Environment
 
 - I use macOS for development
-- My primary terminal is Ghostty with tmux
+- My primary terminal is Apple Terminal (no special fonts or customizations)
 - I prefer Neovim as my editor with vim keybindings
 - I use Homebrew for package management
 
