@@ -19,8 +19,16 @@ ensure_packer()
 require("packer").startup(function(use)
   use "wbthomason/packer.nvim"
 
-  -- Using default colorscheme for better terminal compatibility
+  -- Dracula theme - excellent for 256-color terminals
+  use 'dracula/vim'
 
+  -- Status line
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  }
+
+  -- File explorer
   use {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -31,9 +39,25 @@ require("packer").startup(function(use)
     }
   }
 
+  -- Syntax highlighting
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate"
+  }
+
+  -- Indent guides
+  use "lukas-reineke/indent-blankline.nvim"
+
+  -- Git signs in gutter
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+  }
+
+  -- Better syntax for TODO comments
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
   }
 
   -- Telescope
@@ -57,13 +81,23 @@ vim.opt.encoding = "utf-8"
 local term_program = vim.fn.getenv("TERM_PROGRAM")
 local is_apple_terminal = term_program == "Apple_Terminal"
 
--- Use 256 colors for better terminal compatibility
+-- Disable true colors for 256-color terminal compatibility
 vim.opt.termguicolors = false
 
 vim.opt.background = "dark"
 
--- Use default colorscheme for maximum compatibility
-vim.cmd("colorscheme default")
+-- Setup Dracula colorscheme
+pcall(function()
+  -- Configure Dracula for 256 colors
+  vim.g.dracula_italic = 1
+  vim.g.dracula_bold = 1
+  vim.g.dracula_underline = 1
+  vim.g.dracula_undercurl = 1
+  vim.g.dracula_full_special_attrs_support = 1
+  vim.g.dracula_colorterm = 0 -- Force 256 color mode
+  
+  vim.cmd.colorscheme "dracula"
+end)
 
 -- Safely try to load neo-tree
 pcall(function()
@@ -72,9 +106,9 @@ pcall(function()
   require("neo-tree").setup({
     default_component_configs = {
       icon = {
-        folder_closed = "▸",
-        folder_open = "▾",
-        folder_empty = "▸",
+        folder_closed = ">",
+        folder_open = "v",
+        folder_empty = ">",
         default = "*",
       },
       git_status = {
@@ -151,8 +185,8 @@ pcall(function()
   
   telescope.setup {
     defaults = {
-      prompt_prefix = "🔍 ",
-      selection_caret = "▶ ",
+      prompt_prefix = "> ",
+      selection_caret = "> ",
       path_display = {"truncate"},
       file_ignore_patterns = {
         "node_modules",
@@ -241,3 +275,193 @@ vim.keymap.set('n', '<leader>fc', '<cmd>Telescope git_commits<cr>', { desc = 'Gi
 vim.keymap.set('n', '<leader>fd', '<cmd>Telescope diagnostics<cr>', { desc = 'Diagnostics' })
 vim.keymap.set('n', '<leader>fr', '<cmd>Telescope registers<cr>', { desc = 'Registers' })
 vim.keymap.set('n', '<leader>fk', '<cmd>Telescope keymaps<cr>', { desc = 'Keymaps' })
+
+-- Lualine configuration (status line)
+pcall(function()
+  require('lualine').setup {
+    options = {
+      icons_enabled = true,
+      theme = 'dracula',
+      component_separators = { left = '', right = ''},
+      section_separators = { left = '', right = ''},
+      disabled_filetypes = {
+        statusline = {},
+        winbar = {},
+      },
+      ignore_focus = {},
+      always_divide_middle = true,
+      globalstatus = false,
+      refresh = {
+        statusline = 1000,
+        tabline = 1000,
+        winbar = 1000,
+      }
+    },
+    sections = {
+      lualine_a = {'mode'},
+      lualine_b = {'branch', 'diff', 'diagnostics'},
+      lualine_c = {'filename'},
+      lualine_x = {'encoding', 'fileformat', 'filetype'},
+      lualine_y = {'progress'},
+      lualine_z = {'location'}
+    },
+    inactive_sections = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {'filename'},
+      lualine_x = {'location'},
+      lualine_y = {},
+      lualine_z = {}
+    },
+    tabline = {},
+    winbar = {},
+    inactive_winbar = {},
+    extensions = {}
+  }
+end)
+
+-- Indent blankline configuration
+pcall(function()
+  require("ibl").setup {
+    indent = {
+      char = "|",
+      tab_char = "|",
+    },
+    scope = {
+      enabled = true,
+      show_start = true,
+      show_end = false,
+      injected_languages = false,
+      highlight = { "Function", "Label" },
+      priority = 500,
+    },
+    exclude = {
+      filetypes = {
+        "help",
+        "startify",
+        "dashboard",
+        "packer",
+        "neogitstatus",
+        "NvimTree",
+        "Trouble",
+      },
+      buftypes = {
+        "terminal",
+        "nofile",
+      },
+    },
+  }
+end)
+
+-- Gitsigns configuration
+pcall(function()
+  require('gitsigns').setup {
+    signs = {
+      add          = { text = '+' },
+      change       = { text = '~' },
+      delete       = { text = '-' },
+      topdelete    = { text = '-' },
+      changedelete = { text = '~' },
+      untracked    = { text = '?' },
+    },
+    signcolumn = true,
+    numhl      = false,
+    linehl     = false,
+    word_diff  = false,
+    watch_gitdir = {
+      interval = 1000,
+      follow_files = true
+    },
+    attach_to_untracked = true,
+    current_line_blame = false,
+    current_line_blame_opts = {
+      virt_text = true,
+      virt_text_pos = 'eol',
+      delay = 1000,
+      ignore_whitespace = false,
+    },
+    sign_priority = 6,
+    update_debounce = 100,
+    status_formatter = nil,
+    max_file_length = 40000,
+    preview_config = {
+      border = 'single',
+      style = 'minimal',
+      relative = 'cursor',
+      row = 0,
+      col = 1
+    },
+  }
+end)
+
+-- TODO comments configuration
+pcall(function()
+  require("todo-comments").setup {
+    signs = true,
+    sign_priority = 8,
+    keywords = {
+      FIX = {
+        icon = " ",
+        color = "error",
+        alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
+      },
+      TODO = { icon = " ", color = "info" },
+      HACK = { icon = " ", color = "warning" },
+      WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+      PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+      NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+      TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+    },
+    gui_style = {
+      fg = "NONE",
+      bg = "BOLD",
+    },
+    merge_keywords = true,
+    highlight = {
+      multiline = true,
+      multiline_pattern = "^.",
+      multiline_context = 10,
+      before = "",
+      keyword = "wide",
+      after = "fg",
+      pattern = [[.*<(KEYWORDS)\s*:]],
+      comments_only = true,
+      max_line_len = 400,
+      exclude = {},
+    },
+    colors = {
+      error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+      warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
+      info = { "DiagnosticInfo", "#2563EB" },
+      hint = { "DiagnosticHint", "#10B981" },
+      default = { "Identifier", "#7C3AED" },
+      test = { "Identifier", "#FF00FF" }
+    },
+    search = {
+      command = "rg",
+      args = {
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+      },
+      pattern = [[\b(KEYWORDS):]],
+    },
+  }
+end)
+
+-- Basic editor settings for visual appeal
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.signcolumn = "yes"
+vim.opt.wrap = false
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+vim.opt.list = true
+vim.opt.listchars = { tab = '> ', trail = '·', extends = '>', precedes = '<' }
+
+-- Set leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
