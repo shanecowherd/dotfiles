@@ -46,26 +46,6 @@ require("packer").startup(function(use)
     run = "make"
   }
 
-  -- Color scheme
-  use {
-    "catppuccin/nvim",
-    as = "catppuccin",
-    config = function()
-      require("catppuccin").setup({
-        flavour = "mocha", -- latte, frappe, macchiato, mocha
-        background = {
-          light = "latte",
-          dark = "mocha",
-        },
-        transparent_background = false,
-        term_colors = true,
-        integrations = {
-          neotree = true,
-          treesitter = true,
-        }
-      })
-    end
-  }
 end)
 
 -- Set encoding and terminal settings
@@ -73,9 +53,9 @@ vim.opt.encoding = "utf-8"
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
 
--- Set color scheme (safely)
+-- Use default colorscheme
 pcall(function()
-  vim.cmd.colorscheme "catppuccin"
+  vim.cmd.colorscheme "default"
 end)
 
 -- Safely try to load neo-tree

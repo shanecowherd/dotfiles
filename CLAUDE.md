@@ -26,9 +26,8 @@ The main installation script that:
 11. Runs update-tmux.sh to install tmux configuration
 12. Runs update-nvim.sh to install Neovim configuration and plugins
 13. Runs update-lazygit.sh to install lazygit configurations
-14. Runs update-ghostty.sh to install Ghostty terminal configuration
-15. Handles SSH key import and switches remote to SSH if keys are imported
-16. Runs update-ssh.sh to configure SSH for Ghostty terminal compatibility (if SSH is set up)
+14. Handles SSH key import and switches remote to SSH if keys are imported
+15. Runs update-ssh.sh to configure SSH (if SSH is set up)
 
 ### update-claude.sh
 A helper script that copies personal Claude preferences from the dotfiles repository to ~/.claude/CLAUDE.md. This script:
@@ -69,23 +68,16 @@ A helper script that copies lazygit configurations from the dotfiles repository 
 - Installs delta (git-delta) if not present for enhanced diffs
 - Provides usage instructions for both aliases
 
-### update-ghostty.sh
-A helper script that copies Ghostty terminal configuration from the dotfiles repository to ~/.config/ghostty/. This script:
-- Creates ~/.config/ghostty/ directory if needed
-- Copies config from ghostty-config/ to ~/.config/ghostty/config
-- Configures Hack Nerd Font for proper tmux rounded corners display
-- Provides instructions for reloading configuration
-
 ### update-ssh.sh
-A helper script that configures SSH for Ghostty terminal compatibility. This script:
+A helper script that configures SSH for better terminal compatibility. This script:
 - Checks if ~/.ssh directory exists (requires SSH keys to be set up first)
 - Creates or updates ~/.ssh/config to set TERM=xterm-256color for all SSH connections
-- Prevents "missing or unsuitable terminal: xterm-ghostty" errors on remote servers
+- Provides better terminal compatibility on remote servers
 - Only runs after SSH keys are configured
 
 ### export-ghostty-terminfo.sh
-An optional helper script for advanced users that exports Ghostty terminfo to remote servers:
-- Exports full xterm-ghostty terminfo for the best terminal experience
+An optional helper script for advanced users that exports terminfo to remote servers:
+- Exports terminfo for better terminal experience
 - Not required for basic functionality (SSH config provides compatibility)
 - Usage: `~/dotfiles/export-ghostty-terminfo.sh user@host`
 
@@ -117,13 +109,10 @@ Contains lazygit configurations:
 - `default.yml` - Standard unified diff view using delta
 - `side-by-side.yml` - Side-by-side diff view using delta
 
-### ghostty-config/
-Contains Ghostty terminal configuration:
-- `config` - Ghostty configuration with Hack Nerd Font for tmux rounded corners
 
 ### ssh-config/
 Contains SSH configuration templates:
-- `config` - SSH config that sets TERM=xterm-256color for Ghostty compatibility
+- `config` - SSH config that sets TERM=xterm-256color for better terminal compatibility
 
 ## Commands
 
@@ -167,17 +156,13 @@ cd ~/dotfiles && git pull
 ~/dotfiles/update-lazygit.sh
 ```
 
-### Update Ghostty Configuration Only
-```bash
-~/dotfiles/update-ghostty.sh
-```
 
 ### Update SSH Configuration (after SSH keys are set up)
 ```bash
 ~/dotfiles/update-ssh.sh
 ```
 
-### Export Ghostty Terminfo to Remote Servers (optional)
+### Export Terminfo to Remote Servers (optional)
 ```bash
 ~/dotfiles/export-ghostty-terminfo.sh user@host
 ```
@@ -208,11 +193,9 @@ lazygit-config/
 ├── default.yml      # Standard unified diff view
 └── side-by-side.yml # Side-by-side diff view
 
-ghostty-config/
-└── config          # Ghostty terminal configuration with Nerd Font
 
 ssh-config/
-└── config          # SSH configuration for Ghostty terminal compatibility
+└── config          # SSH configuration for better terminal compatibility
 ```
 
 ## Architecture
