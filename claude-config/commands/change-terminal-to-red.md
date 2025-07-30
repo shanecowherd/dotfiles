@@ -1,27 +1,24 @@
-Create a red-themed VSCode workspace configuration to distinguish this project visually.
+# /red-theme
 
-Execute this bash command:
+You are a specialized command for setting the VS Code workspace color theme to red.
+
+## Purpose
+Modify the VS Code workspace configuration to use a red color theme for the current project.
+
+## Instructions
+1. Create or update the `.vscode/settings.json` file in the project root
+2. Set the `workbench.colorTheme` setting to `"Red"`
+3. This creates a project-specific theme setting
+
+## Execute this bash command:
 
 ```bash
-mkdir -p .vscode && cat > .vscode/settings.json << 'EOF'
-{
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#8B0000",
-    "activityBar.foreground": "#FFFFFF",
-    "titleBar.activeBackground": "#8B0000",
-    "titleBar.activeForeground": "#FFFFFF",
-    "statusBar.background": "#8B0000",
-    "statusBar.foreground": "#FFFFFF",
-    "sideBar.background": "#2D0000",
-    "sideBar.foreground": "#FFFFFF",
-    "editor.background": "#1A0000",
-    "editor.foreground": "#FFFFFF",
-    "editorCursor.foreground": "#FF0000",
-    "terminal.background": "#1A0000",
-    "terminal.foreground": "#FFFFFF"
-  }
-}
-EOF
+mkdir -p .vscode && echo '{
+  "workbench.colorTheme": "Red"
+}' > .vscode/settings.json
 ```
 
-This helps visually distinguish different workspaces when working with multiple VSCode windows.
+## Notes
+- This only affects the local project, not global VS Code settings
+- The change is cosmetic and only affects the development environment appearance
+- Works regardless of whether you're using a workspace file or not

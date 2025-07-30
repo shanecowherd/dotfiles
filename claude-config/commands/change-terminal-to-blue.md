@@ -1,27 +1,24 @@
-Create a dark blue-themed VSCode workspace configuration to distinguish this project visually.
+# /blue-theme
 
-Execute this bash command:
+You are a specialized command for setting the VS Code workspace color theme to blue.
+
+## Purpose
+Modify the VS Code workspace configuration to use a blue color theme for the current project.
+
+## Instructions
+1. Create or update the `.vscode/settings.json` file in the project root
+2. Set the `workbench.colorTheme` setting to `"Tomorrow Night Blue"`
+3. This creates a project-specific theme setting
+
+## Execute this bash command:
 
 ```bash
-mkdir -p .vscode && cat > .vscode/settings.json << 'EOF'
-{
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#1B4F72",
-    "activityBar.foreground": "#FFFFFF",
-    "titleBar.activeBackground": "#1B4F72",
-    "titleBar.activeForeground": "#FFFFFF",
-    "statusBar.background": "#1B4F72",
-    "statusBar.foreground": "#FFFFFF",
-    "sideBar.background": "#154360",
-    "sideBar.foreground": "#FFFFFF",
-    "editor.background": "#0E3A5F",
-    "editor.foreground": "#FFFFFF",
-    "editorCursor.foreground": "#5DADE2",
-    "terminal.background": "#0E3A5F",
-    "terminal.foreground": "#FFFFFF"
-  }
-}
-EOF
+mkdir -p .vscode && echo '{
+  "workbench.colorTheme": "Tomorrow Night Blue"
+}' > .vscode/settings.json
 ```
 
-This helps visually distinguish different workspaces when working with multiple VSCode windows.
+## Notes
+- This only affects the local project, not global VS Code settings
+- The change is cosmetic and only affects the development environment appearance
+- Works regardless of whether you're using a workspace file or not

@@ -86,7 +86,6 @@ Contains Claude Code configuration:
 - `CLAUDE.md` - Personal preferences and environment prompts that apply to all projects
 - `commands/` - Custom Claude Code slash commands:
   - `change-terminal-to-blue.md` - Creates blue-themed VSCode workspace settings
-  - `change-terminal-to-green.md` - Creates green-themed VSCode workspace settings
   - `change-terminal-to-red.md` - Creates red-themed VSCode workspace settings
   - `rules.md` - Enforces a structured workflow with todo.md planning
 - `agents/` - Specialized Claude agents with domain expertise:
@@ -173,7 +172,6 @@ claude-config/
 ├── CLAUDE.md     # Personal preferences for all projects
 ├── commands/     # Custom Claude Code slash commands
 │   ├── change-terminal-to-blue.md
-│   ├── change-terminal-to-green.md
 │   ├── change-terminal-to-red.md
 │   └── rules.md
 └── agents/       # Specialized Claude agents
